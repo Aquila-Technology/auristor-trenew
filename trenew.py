@@ -8,7 +8,7 @@
 #        sudo -E pip3 install python-daemon
 #
 # RHEL7:
-#        yum -y install python-daemon
+#        yum -y install python3
 #        pip3 install python-daemon
 #
 # Ubuntu 16.04: 
@@ -104,7 +104,7 @@ def trenew(args):
     try:
         logger.addHandler(JournalHandler())
     except:
-        logger.addHandler(SysLogHandler())
+        logger.addHandler(SysLogHandler(address='/dev/log', facility='daemon'))
     if not args.background:
         logger.addHandler(logging.StreamHandler(sys.stdout))
     if args.verbose:
@@ -136,13 +136,13 @@ def trenew(args):
         logger.debug(aklog_call.stderr)
         logger.debug(aklog_call)
 
-        if aklog_call.returncode != 0:
+        if aklog_call.returncode != 0 and args.obsess != 0:
             logger.warning("aklog returned %d" % aklog_call.returncode)
             sleepTime = setSleep(args.obsess)
-            logger.debug("we think we do not have a good token, obsessiong %d", sleepTime)
+            logger.debug("we think we do not have a good token, obsessiong every %d seconds", sleepTime)
         else:
             sleepTime = setSleep(args.keep_alive)
-            logger.debug("we think we do have a good token, sleeping for %d", sleepTime)
+            logger.debug("we think we do have a good token, sleeping for %d seconds", sleepTime)
 
         time.sleep(sleepTime)
 
