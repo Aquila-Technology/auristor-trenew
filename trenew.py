@@ -173,7 +173,7 @@ def start_daemon(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Example daemon in Python")
-    parser.add_argument('-c', '--pid-file', help="path to pid file", default='/var/run/user/'+str(os.getuid())+'/trenew.pid')
+    parser.add_argument('-p', '--pid-file', help="path to pid file", default='/var/run/user/'+str(os.getuid())+'/trenew.pid')
 #    parser.add_argument('-l', '--log-file', default=False)
     parser.add_argument('-b', '--background', help='Fork and run in the background', action='store_true')
     #parser.add_argument('-i', '--ignore-errors', help='Kepp running even if aklog returns an error', action='store_true')
